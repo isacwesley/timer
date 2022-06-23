@@ -1,46 +1,41 @@
-const addZero = (num) => (num < 10 ? '0' + num : num);
-
-function atualizaHora(hora, minuto, segundo) {
-   timer.innerHTML = `${addZero(hora)}:${addZero(minuto)}:${addZero(segundo)}`;
+function criaHora(segundos) {
+   const data = new Date(segundos * 1000);
+   return data.toLocaleTimeString('pt-br', {
+      timeZone: 'UTC',
+      hour12: false,
+   });
 }
 
-let [hora, minuto, segundo] = [0, 0, 0];
 const timer = document.querySelector('.timer');
-const iniciar = document.querySelector('.iniciar');
-const pausar = document.querySelector('.pausar');
-const zerar = document.querySelector('.zerar');
-
 let clicouIniciar = false;
+let segundo = 0;
+let inter;
 
-iniciar.addEventListener('click', () => {
-   if (!clicouIniciar) {
+function zerarTimer() {
+   timer.innerHTML = '00:00:00';
+   segundo = 0;
+}
+zerarTimer()
+
+document.addEventListener('click', (e) => {
+   const el = e.target;
+   if (el.classList.contains('iniciar') && !clicouIniciar) {
       clicouIniciar = true;
-      atualizaHora(hora, minuto, segundo);
-
-      const inter = setInterval(() => {
+      timer.classList.remove('parado');
+      inter = setInterval(() => {
          segundo++;
-         atualizaHora(hora, minuto, segundo);
-
-         if (segundo === 60) {
-            segundo = 0;
-            minuto++;
-         }
-
-         if (minuto === 60) {
-            minuto = 0;
-            hora++;
-         }
+         timer.innerHTML = criaHora(segundo);
       }, 1000);
-
-      pausar.addEventListener('click', () => {
-         clearInterval(inter);
-         clicouIniciar = false;
-      });
-      zerar.addEventListener('click', () => {
-         clicouIniciar = false;
-         [hora, minuto, segundo] = [0, 0, 0];
-         atualizaHora(hora, minuto, segundo);
-         clearInterval(inter);
-      });
+   }
+   if (el.classList.contains('pausar')) {
+      clearInterval(inter);
+      timer.classList.add('parado');
+      clicouIniciar = false;
+   }
+   if (el.classList.contains('zerar')) {
+      timer.classList.remove('parado');
+      zerarTimer();
+      clearInterval(inter);
+      clicouIniciar = false;
    }
 });

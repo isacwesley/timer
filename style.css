@@ -5,17 +5,18 @@
 }
 
 body {
-    background-color: grey;
+    background-color: #99cac4;
     font-family: sans-serif;
 }
 
 .container {
     margin-inline: auto;
-    background-color:azure;
+    background-color: azure;
     padding: 1.5rem;
-    width:250px;
+    width: 250px;
     border-radius: 10px;
     margin-top: 250px;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .timer {
@@ -35,12 +36,16 @@ body {
     padding: 8px;
     border-radius: 4px;
     border: none;
-    background-color: grey;
+    background-color: #99cac4;
     color: white;
     font-weight: bold;
     flex: 1;
 }
 
 .buttons button:active {
-    background-color: #5c5959;
+    background-color: #004337;
+}
+
+.parado {
+    color: red;
 }
